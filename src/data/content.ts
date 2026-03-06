@@ -8,12 +8,11 @@ export const site = {
 } as const;
 
 export const navLinks = [
-  { href: '#about', label: 'Level 1: About' },
-  { href: '#experience', label: 'XP Log' },
-  { href: '#what-i-do', label: 'Stats' },
-  { href: '#hobbies', label: 'Achievements' },
-  { href: '#projects', label: 'Quest log' },
-  { href: '#contact', label: 'Insert coin' },
+  { href: 'about', label: 'Level 1: About' },
+  { href: 'skills', label: 'Stats' },
+  { href: 'hobbies', label: 'Achievements' },
+  { href: 'projects', label: 'Quest log' },
+  { href: 'contact', label: 'Insert coin' },
 ] as const;
 
 export const hero = {
@@ -129,7 +128,7 @@ export const contact = {
   title: 'Insert coin to contact',
   links: [
     { label: 'GitHub', href: 'https://github.com/nkrathore67' },
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/neerajkumarrathor' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/neeraj-kumar-rathor-7ab735181/' },
     { label: 'Email', href: 'mailto:nkrathore67@gmail.com' },
   ],
 } as const;
