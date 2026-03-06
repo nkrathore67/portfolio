@@ -126,7 +126,11 @@ import '../styles/global.css';
 (function () {
   const canvas = document.getElementById('gameCanvas');
   const ctx = canvas.getContext('2d');
-  const W = 900, H = 560;
+
+  /* portrait when phone is held vertically (narrow + taller-than-wide) */
+  const PORT = window.innerWidth < window.innerHeight && window.innerWidth < 600;
+  const W = PORT ? 400 : 900;
+  const H = PORT ? 640 : 560;
   canvas.width = W;
   canvas.height = H;
 
@@ -149,15 +153,15 @@ import '../styles/global.css';
         if (spr[r][c] === 'X') ctx.fillRect(x + c * PX, y + r * PX, PX, PX);
   }
 
-  /* ── Layout constants ── */
-  const COLS = 10, ROWS = 4;
+  /* ── Layout constants (portrait / landscape adaptive) ── */
+  const COLS = PORT ? 8 : 10, ROWS = 4;
   const SPR_W = 8 * PX, SPR_H = 6 * PX;   // 24 × 18
   const PLR_W = 9 * PX, PLR_H = 5 * PX;   // 27 × 15
-  const CELL_W = 56, CELL_H = 40;
+  const CELL_W = PORT ? 40 : 56, CELL_H = PORT ? 44 : 40;
   const GRID_LEFT = (W - COLS * CELL_W) / 2;
-  const GRID_TOP = 65;
-  const PLAYER_Y = H - 55;
-  const MARGIN = 12;
+  const GRID_TOP = PORT ? 75 : 65;
+  const PLAYER_Y = H - (PORT ? 65 : 55);
+  const MARGIN = PORT ? 8 : 12;
 
   const ROW_COLORS = ['#ff6b6b', '#ffd166', '#06d6a0', '#a78bfa'];
   const ROW_SPRITES = [
@@ -420,12 +424,12 @@ import '../styles/global.css';
 
   function drawIdle() {
     ctx.shadowColor = '#00f5d4'; ctx.shadowBlur = 28;
-    px(14, 'NEERAJ KUMAR RATHOR', W/2, H/2 - 108, '#00f5d4', false);
+    px(PORT ? 10 : 14, 'NEERAJ KUMAR RATHOR', W/2, H/2 - 108, '#00f5d4', false);
     ctx.shadowBlur = 0;
 
-    ctx.font = "18px 'VT323',monospace";
+    ctx.font = `${PORT ? 14 : 18}px 'VT323',monospace`;
     ctx.fillStyle = '#a78bfa'; ctx.textAlign = 'center';
-    ctx.fillText('SOFTWARE ENGINEER  ·  CLOUD  ·  DEVOPS', W/2, H/2 - 72);
+    ctx.fillText(PORT ? 'SWE  ·  CLOUD  ·  DEVOPS' : 'SOFTWARE ENGINEER  ·  CLOUD  ·  DEVOPS', W/2, H/2 - 72);
 
     px(8, `HI-SCORE  ${String(hiScore).padStart(6,'0')}`, W/2, H/2 - 36, '#ffd166', false);
 
@@ -523,12 +527,17 @@ import '../styles/global.css';
                      ? (touchEl.offsetHeight || 64) : 0;
     const availW = window.innerWidth;
     const availH = window.innerHeight - headerH - touchH - 2;
-    const scale  = Math.min(Math.min(availW, 900) / W, Math.max(0.25, availH / H));
+    const scale  = Math.min(Math.min(availW, W) / W, Math.max(0.25, availH / H));
     canvas.style.width  = Math.floor(W * scale) + 'px';
     canvas.style.height = Math.floor(H * scale) + 'px';
   }
-  window.addEventListener('resize', resizeCanvas);
-  screen.orientation?.addEventListener('change', () => setTimeout(resizeCanvas, 100));
+  window.addEventListener('resize', () => {
+    /* reload when orientation flips so canvas constants are re-evaluated */
+    const nowPort = window.innerWidth < window.innerHeight && window.innerWidth < 600;
+    if (nowPort !== PORT) setTimeout(() => window.location.reload(), 150);
+    else resizeCanvas();
+  });
+  screen.orientation?.addEventListener('change', () => setTimeout(() => window.location.reload(), 150));
 
   try { hiScore = parseInt(localStorage.getItem('nkr_hiscore') || '0') || 0; } catch (_) {}
   initStars();
