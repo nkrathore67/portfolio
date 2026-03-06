@@ -1,0 +1,51 @@
+---
+import Section from './Section.astro';
+import { hobbies } from '../data/content';
+---
+<Section id="hobbies" title="Achievements">
+  <p class="achievements-intro">Side quests and things I enjoy.</p>
+  <ul class="achievements-list">
+    {hobbies.map((h) => (
+      <li class="achievement-card">
+        <h3>{h.title}</h3>
+        <p>{h.description}</p>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  .achievements-intro {
+    margin-bottom: 1.5rem;
+    color: var(--text-muted);
+  }
+
+  .achievements-list {
+    list-style: none;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .achievement-card {
+    padding: 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--accent-3);
+    border-radius: 4px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+
+  .achievement-card:hover {
+    border-color: var(--accent-1);
+    box-shadow: var(--glow-1);
+  }
+
+  .achievement-card h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .achievement-card p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+</style>

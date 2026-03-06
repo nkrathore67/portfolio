@@ -1,0 +1,37 @@
+---
+import Section from './Section.astro';
+import { about } from '../data/content';
+---
+<Section id="about" title={about.title}>
+  <p class="about-bio">{about.bio}</p>
+  <dl class="about-meta">
+    <dt>Education</dt>
+    <dd>{about.education}</dd>
+    <dt>Location</dt>
+    <dd>{about.location}</dd>
+  </dl>
+</Section>
+
+<style>
+  .about-bio {
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+  }
+
+  .about-meta {
+    display: grid;
+    gap: 0.5rem 1rem;
+    grid-template-columns: auto 1fr;
+  }
+
+  .about-meta dt {
+    font-family: var(--font-retro);
+    font-size: 1.2rem;
+    color: var(--accent-4);
+  }
+
+  .about-meta dd {
+    margin: 0;
+    color: var(--text-muted);
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import Section from './Section.astro';
+import { contact } from '../data/content';
+---
+<Section id="contact" title={contact.title}>
+  <ul class="contact-links">
+    {contact.links.map((link) => (
+      <li>
+        <a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  .contact-links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .contact-links a {
+    font-family: var(--font-retro);
+    font-size: 1.4rem;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .contact-links a:hover {
+    border-bottom-color: var(--accent-1);
+    color: var(--accent-1);
+    text-decoration: none;
+  }
+</style>

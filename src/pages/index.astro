@@ -1,0 +1,19 @@
+---
+import Layout from '../components/Layout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import WhatIDo from '../components/WhatIDo.astro';
+import HobbiesInterests from '../components/HobbiesInterests.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+import { footer } from '../data/content';
+---
+<Layout title="Portfolio — Developer · Gamer · Creator">
+  <Hero />
+  <About />
+  <WhatIDo />
+  <HobbiesInterests />
+  <Projects />
+  <Contact />
+  <Fragment slot="footer">{footer.copyright}</Fragment>
+</Layout>

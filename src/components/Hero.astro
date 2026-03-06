@@ -1,0 +1,55 @@
+---
+import { site, hero } from '../data/content';
+---
+<section class="hero" aria-labelledby="hero-title">
+  <h1 id="hero-title" class="hero-title">{site.title}</h1>
+  <p class="hero-tagline">{site.tagline}</p>
+  <p class="hero-subtitle">{hero.subtitle}</p>
+  <a href="#about" class="hero-cta">{hero.cta}</a>
+</section>
+
+<style>
+  .hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--section-padding) 0;
+  }
+
+  .hero-title {
+    margin-bottom: 0.75rem;
+    font-size: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .hero-tagline {
+    font-family: var(--font-retro);
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .hero-cta {
+    font-family: var(--font-pixel);
+    font-size: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    color: var(--accent-1);
+    border: 2px solid var(--accent-1);
+    transition: box-shadow 0.2s, background 0.2s;
+  }
+
+  .hero-cta:hover {
+    text-decoration: none;
+    box-shadow: var(--glow-1);
+    background: rgba(0, 245, 212, 0.1);
+  }
+</style>
