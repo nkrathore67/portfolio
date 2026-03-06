@@ -9,6 +9,7 @@ export const site = {
 
 export const navLinks = [
   { href: 'about', label: 'Level 1: About' },
+  { href: 'experience', label: 'XP Log' },
   { href: 'skills', label: 'Stats' },
   { href: 'hobbies', label: 'Achievements' },
   { href: 'projects', label: 'Quest log' },
