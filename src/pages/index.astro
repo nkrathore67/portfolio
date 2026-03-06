@@ -39,11 +39,19 @@ import '../styles/global.css';
   }
   .skip-link:focus { top: 0; outline: none; }
 
+  :global(html) {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
   .home-body {
     display: flex;
     flex-direction: column;
-    height: 100dvh;
+    height: 100vh;   /* vh fallback (older browsers / iOS Safari) */
+    height: 100dvh;  /* dynamic viewport — excludes mobile browser chrome */
     overflow: hidden;
+    overscroll-behavior: none;
     background: #08080f;
   }
 
@@ -53,38 +61,41 @@ import '../styles/global.css';
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    overflow: hidden;
     background: #08080f;
   }
 
   #gameCanvas {
-    flex: 1;
-    min-height: 0;
     display: block;
-    width: 100%;
-    max-width: 900px;
-    height: auto;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     cursor: crosshair;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    /* sizing driven by JS resizeCanvas() */
   }
 
   .touch-controls {
     display: none;
     gap: 0.75rem;
-    padding: 0.75rem;
+    padding: 0.6rem 1rem;
     width: 100%;
     max-width: 900px;
     justify-content: center;
+    flex-shrink: 0;
   }
 
-  @media (hover: none), (max-width: 600px) {
+  @media (hover: none), (max-width: 700px) {
     .touch-controls { display: flex; }
   }
 
   .touch-btn {
     flex: 1;
-    max-width: 130px;
-    padding: 0.9rem 0.5rem;
+    max-width: 120px;
+    min-height: 48px;
+    padding: 0.75rem 0.25rem;
     background: transparent;
     color: var(--accent-1);
     border: 2px solid var(--accent-1);
@@ -479,7 +490,8 @@ import '../styles/global.css';
   });
   window.addEventListener('keyup', e => { delete keys[e.code]; });
 
-  canvas.addEventListener('pointerdown', () => {
+  canvas.addEventListener('pointerdown', e => {
+    e.preventDefault();
     if (gs === 'idle' || gs === 'gameover') { gs = 'playing'; resetGame(); }
   });
 
@@ -502,11 +514,27 @@ import '../styles/global.css';
     requestAnimationFrame(loop);
   }
 
+  /* ── Responsive canvas sizing ── */
+  function resizeCanvas() {
+    const headerEl = document.querySelector('header');
+    const touchEl  = document.querySelector('.touch-controls');
+    const headerH  = headerEl ? headerEl.offsetHeight : 68;
+    const touchH   = (touchEl && window.getComputedStyle(touchEl).display !== 'none')
+                     ? (touchEl.offsetHeight || 64) : 0;
+    const availW = window.innerWidth;
+    const availH = window.innerHeight - headerH - touchH - 2;
+    const scale  = Math.min(Math.min(availW, 900) / W, Math.max(0.25, availH / H));
+    canvas.style.width  = Math.floor(W * scale) + 'px';
+    canvas.style.height = Math.floor(H * scale) + 'px';
+  }
+  window.addEventListener('resize', resizeCanvas);
+  screen.orientation?.addEventListener('change', () => setTimeout(resizeCanvas, 100));
+
   try { hiScore = parseInt(localStorage.getItem('nkr_hiscore') || '0') || 0; } catch (_) {}
   initStars();
   initGame();
-  document.fonts.ready.then(() => {
-    requestAnimationFrame(ts => { lastTime = ts; requestAnimationFrame(loop); });
-  });
+  resizeCanvas();  // size canvas synchronously — before any paint
+  requestAnimationFrame(ts => { lastTime = ts; requestAnimationFrame(loop); });
+  document.fonts.ready.then(() => resizeCanvas()); // re-run once fonts settle
 })();
 </script>

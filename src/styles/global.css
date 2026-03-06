@@ -99,7 +99,20 @@ h3 {
   color: var(--accent-4);
 }
 
-/* Optional CRT scanlines overlay (subtle) */
+/* ── Responsive type scale ── */
+@media (max-width: 480px) {
+  :root {
+    --section-padding: clamp(1.5rem, 6vw, 2.5rem);
+  }
+
+  body { font-size: 0.97rem; }
+
+  h1 { font-size: clamp(0.7rem, 4.5vw, 1rem); }
+  h2 { font-size: clamp(0.6rem, 3.5vw, 0.8rem); }
+  h3 { font-size: clamp(0.55rem, 3vw, 0.75rem); }
+}
+
+/* ── Optional CRT scanlines overlay (subtle) ── */
 .crt-overlay::after {
   content: '';
   position: fixed;

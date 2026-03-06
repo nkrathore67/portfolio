@@ -33,5 +33,10 @@ const { id, title, className = '' } = Astro.props;
 
   .section-content {
     max-width: 65ch;
+    width: 100%;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .section-content { max-width: 80ch; }
   }
 </style>
