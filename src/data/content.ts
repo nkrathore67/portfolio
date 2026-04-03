@@ -102,25 +102,25 @@ export const projects = [
   {
     title: 'O2PL & SGT Scheduler',
     description: 'Two advanced concurrency control schedulers (Optimistic Two-Phase Locking & Serialization Graph Testing) for multi-threaded transaction processing on multi-core CPUs. Includes comparative analysis against BOCC and FOCC.',
-    href: '#',
+    href: 'https://github.com/nkrathore67',
     tags: ['C++', 'Multithreading', 'Mutex'],
   },
   {
     title: 'Global Monitoring System',
     description: 'End-to-end monitoring for Kubernetes clusters, AWS services, Linux machines, databases, and logs. Covers website and backend observability.',
-    href: '#',
+    href: 'https://github.com/nkrathore67',
     tags: ['Grafana', 'Prometheus', 'AWS', 'Selenium', 'Shell'],
   },
   {
     title: 'Polluting Bloom Filters via Flow Radar',
     description: 'Research project exposing false-positive vulnerabilities in Bloom filters used in network security applications.',
-    href: '#',
+    href: 'https://github.com/nkrathore67',
     tags: ['Python', 'Networking', 'Security'],
   },
   {
     title: 'Qscape',
     description: 'Automated queue management system that analyses appointment databases and waiting room occupancy. Uses ML to estimate wait times.',
-    href: '#',
+    href: 'https://github.com/nkrathore67',
     tags: ['AWS EC2', 'Machine Learning', 'Object Detection'],
   },
 ] as const;

@@ -1,6 +1,6 @@
 /* Gaming / retro theme — CSS variables, reset, typography */
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap&font-display=swap');
 
 :root {
   /* Dark base */
@@ -10,7 +10,7 @@
 
   /* Text */
   --text: #e2e2e8;
-  --text-muted: #9898a6;
+  --text-muted: #b0b0be;
 
   /* Neon accents */
   --accent-1: #00f5d4;

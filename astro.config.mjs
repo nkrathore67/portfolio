@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
-// https://astro.build/config
-// Replace 'your-username' with your GitHub username. If your repo name isn't 'portfolio', set base to '/your-repo-name/'
+import sitemap from '@astrojs/sitemap';
+
 export default defineConfig({
   site: 'https://nkrathore67.github.io',
   base: '/portfolio/',
+  integrations: [sitemap()],
 });

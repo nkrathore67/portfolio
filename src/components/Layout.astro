@@ -9,6 +9,7 @@ interface Props {
 }
 
 const { title = site.title, description = 'Personal portfolio — what I do, what I like, my background.' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 <!doctype html>
 <html lang="en">
@@ -16,7 +17,21 @@ const { title = site.title, description = 'Personal portfolio — what I do, wha
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL.href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={site.title} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
     <title>{title}</title>
   </head>
   <body class="crt-overlay">
@@ -29,6 +44,34 @@ const { title = site.title, description = 'Personal portfolio — what I do, wha
       <p class="footer-line">{footer.line}</p>
       <p class="footer-copy"><slot name="footer">{footer.copyright}</slot></p>
     </footer>
+
+    <!-- Back to top -->
+    <a href="#" class="back-to-top" aria-label="Back to top" id="back-to-top">↑</a>
+
+    <!-- Scroll reveal -->
+    <script>
+      const sections = document.querySelectorAll('.section');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      sections.forEach((s) => observer.observe(s));
+
+      // Back to top visibility
+      const btn = document.getElementById('back-to-top');
+      if (btn) {
+        window.addEventListener('scroll', () => {
+          btn.classList.toggle('show', window.scrollY > 400);
+        }, { passive: true });
+      }
+    </script>
   </body>
 </html>
 
@@ -37,18 +80,20 @@ const { title = site.title, description = 'Personal portfolio — what I do, wha
     position: absolute;
     top: -100%;
     left: 0;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1.25rem;
     background: var(--accent-1);
     color: var(--bg);
     font-family: var(--font-pixel);
-    font-size: 0.6rem;
+    font-size: 0.75rem;
     z-index: 10000;
     transition: top 0.2s;
+    border-radius: 0 0 4px 0;
   }
 
   .skip-link:focus {
     top: 0;
-    outline: none;
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
   }
 
   main {
@@ -75,5 +120,39 @@ const { title = site.title, description = 'Personal portfolio — what I do, wha
   .footer-copy {
     font-size: 0.9rem;
     font-family: var(--font-body);
+  }
+
+  /* Back to top button */
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border: 1px solid var(--accent-3);
+    border-radius: 50%;
+    color: var(--accent-3);
+    font-size: 1.2rem;
+    text-decoration: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, box-shadow 0.2s, border-color 0.2s;
+    z-index: 100;
+  }
+
+  .back-to-top.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .back-to-top:hover {
+    border-color: var(--accent-1);
+    color: var(--accent-1);
+    box-shadow: var(--glow-1);
+    text-decoration: none;
   }
 </style>
